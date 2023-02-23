@@ -10119,8 +10119,8 @@ paths:
     delete:
       summary: Deletes a membership
       description: |-
-        A specific, existing membership can be deleted by making a DELETE
-        request on the URL for that membership.
+        A specific, existing membership can be deleted by making a DELETE request
+        on the URL for that membership.
 
         Returns an empty data record.
       tags:
