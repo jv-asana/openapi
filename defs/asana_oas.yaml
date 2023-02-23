@@ -3508,14 +3508,6 @@ components:
                 The notes of the project with formatting as HTML.
               type: string
               example: <body>These are things we need to purchase.</body>
-            is_template:
-              description: >-
-                [Opt In](/docs/inputoutput-options).
-                *Deprecated - please use a project template endpoint instead (more
-                in [this forum post](https://forum.asana.com/t/a-new-api-for-project-templates/156432)).*
-                Determines if the project is a template.
-              type: boolean
-              example: false
             members:
               description: Array of users who are members of this project.
               type: array
@@ -4089,6 +4081,16 @@ components:
                 - light-purple
                 - light-warm-gray
               example: light-green
+            requested_roles:
+              description: >-
+                Array of template roles in this project template. User Ids can be
+                provided
+                for these variables when instantiating a project to assign template
+                tasks to
+                the user.
+              type: array
+              items:
+                $ref: '#/components/schemas/TemplateRole'
     ProjectTemplateResponse:
       allOf:
         - $ref: '#/components/schemas/ProjectTemplateBase'
@@ -5864,6 +5866,16 @@ components:
               enum:
                 - all_team_members
                 - only_team_admins
+    TemplateRole:
+      allOf:
+        - $ref: '#/components/schemas/AsanaResource'
+        - type: object
+          properties:
+            name:
+              type: string
+              description: >-
+                Name of the template role.
+              example: Designer
     TimePeriodBase:
       allOf:
         - $ref: '#/components/schemas/TimePeriodCompact'
@@ -6645,6 +6657,13 @@ paths:
         Overview. For a project brief, an attachment refers to inline files in the
         project brief itself. For
         a task, an attachment refers to a file directly associated to that task.
+
+
+        Note that within the Asana app, inline images in the task description do not
+        appear in the index of image
+        thumbnails nor as stories in the task. However, requests made to `GET /attachments`
+        for a task will return
+        all of the images in the task, including inline images.
       tags:
         - Attachments
       operationId: getAttachmentsForObject
@@ -10099,9 +10118,9 @@ paths:
       - $ref: '#/components/parameters/fields'
     delete:
       summary: Deletes a membership
-      description: >-
-        A specific, existing membership can be deleted by making a DELETE request
-        on the URL for that membership.
+      description: |-
+        A specific, existing membership can be deleted by making a DELETE request on the URL
+        for that membership.
 
         Returns an empty data record.
       tags:
@@ -10129,7 +10148,7 @@ paths:
         500:
           $ref: '#/components/responses/InternalServerError'
     put:
-      summary: Updates a membership.
+      summary: Updates a membership
       description: >-
         An existing membership can be updated by making a PUT request on the URL for
         that goal. Only the fields provided in the `data` block will be updated;
