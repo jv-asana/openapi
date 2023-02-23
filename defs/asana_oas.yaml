@@ -10264,11 +10264,9 @@ paths:
           $ref: '#/components/responses/InternalServerError'
     post:
       summary: Create a membership
-      description: >-
-        Creates a new membership in a `team`, `project`, `goal`, or `portfolio`. `Teams`
-        or `users` can
-        be a member of `goals`. `Project`, `team`, and `portfolios` have users as
-        members.
+      description: |-
+        Creates a new membership in a `team`, `project`, `goal`, or `portfolio`. `Teams` or `users` can
+        be a member of `goals`. `Project`, `team`, and `portfolios` have users as members.
 
         Returns the full record of the newly created membership.
       tags:
