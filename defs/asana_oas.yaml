@@ -1240,15 +1240,6 @@ components:
       schema:
         type: string
       example: '2012-02-22T02:06:58.158Z'
-    parent:
-      name: parent
-      in: query
-      required: true
-      description: >
-        Membership parent object gid.
-      schema:
-        type: string
-      example: '123'
     member:
       name: member
       in: query
@@ -10111,85 +10102,6 @@ paths:
 
               result = client.jobs.get_job(job_gid: 'job_gid', param: "value", param:
               "value", options: {pretty: true})
-  /memberships/{membership_gid}:
-    parameters:
-      - $ref: '#/components/parameters/membership_path_gid'
-      - $ref: '#/components/parameters/pretty'
-      - $ref: '#/components/parameters/fields'
-    delete:
-      summary: Deletes a membership
-      description: |-
-        A specific, existing membership can be deleted by making a DELETE request
-        on the URL for that membership.
-
-        Returns an empty data record.
-      tags:
-        - Memberships
-      operationId: deleteMembership
-      responses:
-        200:
-          description: >-
-            Successfully deleted the requested membership.
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  data:
-                    $ref: '#/components/schemas/EmptyResponse'
-        400:
-          $ref: '#/components/responses/BadRequest'
-        401:
-          $ref: '#/components/responses/Unauthorized'
-        403:
-          $ref: '#/components/responses/Forbidden'
-        404:
-          $ref: '#/components/responses/NotFound'
-        500:
-          $ref: '#/components/responses/InternalServerError'
-    put:
-      summary: Updates a membership
-      description: >-
-        An existing membership can be updated by making a PUT request on the URL for
-        that goal. Only the fields provided in the `data` block will be updated;
-        any unspecified fields will remain unchanged. Standard access level can be
-        updated
-        for project only right now. Memberships on `project`, `portfolio`, `team`,
-        and `goals` can be updated.
-      tags:
-        - Memberships
-      operationId: updateMembership
-      requestBody:
-        description: The updated fields for the membership.
-        required: false
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                data:
-                  $ref: '#/components/schemas/MembershipRequest'
-      responses:
-        200:
-          description: >-
-            Successfully updated the requested membership.
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  data:
-                    $ref: '#/components/schemas/MembershipResponse'
-        400:
-          $ref: '#/components/responses/BadRequest'
-        401:
-          $ref: '#/components/responses/Unauthorized'
-        403:
-          $ref: '#/components/responses/Forbidden'
-        404:
-          $ref: '#/components/responses/NotFound'
-        500:
-          $ref: '#/components/responses/InternalServerError'
   /memberships:
     parameters:
       - $ref: '#/components/parameters/pretty'
@@ -10199,7 +10111,7 @@ paths:
       description: >-
         Returns compact membership records. The possible values
         for `parent` in this request are `project`, `porfolio`, `team`, `goal`,
-        and `workspace`. An additional member (user or team gid) can be passed in
+        and `workspace`. An additional member (user or team GID) can be passed in
         to filter to a specific membership.
       tags:
         - Memberships
@@ -10287,6 +10199,86 @@ paths:
         200:
           description: >-
             Successfully created the requested membership.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/MembershipResponse'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/InternalServerError'
+  /memberships/{membership_gid}:
+    parameters:
+      - $ref: '#/components/parameters/membership_path_gid'
+      - $ref: '#/components/parameters/pretty'
+      - $ref: '#/components/parameters/fields'
+    delete:
+      summary: Delete a membership
+      description: |-
+        A specific, existing membership can be deleted by making a `DELETE` request
+        on the URL for that membership.
+
+        Returns an empty data record.
+      tags:
+        - Memberships
+      operationId: deleteMembership
+      responses:
+        200:
+          description: >-
+            Successfully deleted the requested membership.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/EmptyResponse'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/InternalServerError'
+    put:
+      summary: Update a membership
+      description: >-
+        An existing membership can be updated by making a `PUT` request on the URL
+        for
+        that goal. Only the fields provided in the `data` block will be updated;
+        any unspecified fields will remain unchanged. Currently, the standard access
+        level
+        can only be updated for `project`. Memberships on `project`, `portfolio`,
+        `team`, and `goals` can be updated.
+      tags:
+        - Memberships
+      operationId: updateMembership
+      requestBody:
+        description: The updated fields for the membership.
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  $ref: '#/components/schemas/MembershipRequest'
+      responses:
+        200:
+          description: >-
+            Successfully updated the requested membership.
           content:
             application/json:
               schema:
